@@ -4,6 +4,7 @@ const misFiguras    = document.querySelectorAll(".figura");
 const misFiguras2   = document.querySelectorAll(".figura2");
 //const contFiguras   = document.querySelector(".figura");
 
+const IMG_PIC_FAIL = "pic_fail.jpg";
 
 const symbLib     = [ "💎", "🍀", "🔔", "🎰", "🌟", "💰", "🕰️", "📀",
                       "🍊", "🍒", "🍋", "🍇", "🍉", "🍓", "🍎", "🍍",
@@ -21,6 +22,9 @@ let quedanFiguras  = nroFiguras;
 let muestraFigura  = false;
 let index1, index2 = 0
 let setDeFiguras   = [];
+
+let picFail = false;
+let failPos = 0;
 
 
 initAll();
@@ -143,6 +147,11 @@ function getRandPresent (max) {
  * Juego de la memoria
  */    
 function memoTest () {
+    if (picFail = true) {
+            picFail = false;
+            misFiguras2[failPos].style.backgroundColor = "transparent";
+            misFiguras2[failPos].style.display = "none";
+    }
     if (!muestraFigura) {
         muestraFigura = true;
         index1 = getRandPresent(nroFiguras);
@@ -212,5 +221,14 @@ function picBox(pos) {
                 quedanFiguras = misFiguras.length;
             }
         }
+        else { // le pifió muestro un background 
+            failPos = pos;
+            picFail = true;
+            misFiguras2[failPos].style.display = "block";
+            misFiguras2[failPos].style.backgroundSize = "cover"; 
+            misFiguras2[failPos].style.backgroundPosition = "center center";
+            misFiguras2[failPos].style.backgroundImage = "url('"+IMG_PIC_FAIL+"')";
+        }
+
     } 
 }

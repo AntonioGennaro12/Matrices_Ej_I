@@ -1,3 +1,13 @@
+body {
+    background-color: antiquewhite;
+}
+
+#config {
+    width: 360px;
+    display: flex;
+    display: none;
+}
+
 #mi-tablero {
     margin-top: 5px;
     margin-left: 2px;
