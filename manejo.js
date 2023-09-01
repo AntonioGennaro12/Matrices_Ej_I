@@ -192,7 +192,7 @@ function picBox(pos) {
     console.log("entró: "+pos);
     if (pos != index1){
         if (misFiguras[pos].textContent == misFiguras[index1].textContent) {
-            console.log("acertaste: "+misFiguras[pos].textContent);
+            console.log("acertaste: "+misFiguras[pos].textContent );
             ///////// ENCONTRADO
             misFiguras[pos].style.display = "none";
             misFiguras[index1].style.display = "none";
