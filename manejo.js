@@ -12,6 +12,7 @@ const symbLib     = [ "💎", "🍀", "🔔", "🎰", "🌟", "💰", "🕰️",
 
 const ANCHO_TABLERO = 4;
 const ALTO_TABLERO  = 6;
+const THINK_TIME    = 2000;
 
 let memoInterval = 0 ;  
 let nroDePares     = (ANCHO_TABLERO * ALTO_TABLERO)/2;
@@ -20,6 +21,7 @@ let quedanFiguras  = nroFiguras;
 let muestraFigura  = false;
 let index1, index2 = 0
 let setDeFiguras   = [];
+
 
 initAll();
 
@@ -82,7 +84,37 @@ function initAll () {
         misFiguras[i].style.display = "none";
         misFiguras[i].style.backgroundColor = "antiquewhite";  
     }
-    memoInterval    = setInterval(memoTest, 2000); 
+    memoInterval    = setInterval(showInicial, 250); 
+}
+
+function showInicial () {
+    if(quedanFiguras > 0) {
+        if (!muestraFigura) {
+            muestraFigura = true;
+            for (i=0;i<nroFiguras;i++){
+                misFiguras[i].style.display = "block";
+                if (i%2) { misFiguras[i].style.backgroundColor = "lightgreen"; }
+                else { misFiguras[i].style.backgroundColor = "yellow"; }                  
+            }
+        }
+        else {
+            muestraFigura = false;
+            for (i=0;i<nroFiguras;i++){
+                misFiguras[i].style.display = "none";
+            }
+        }
+        quedanFiguras--;
+    }
+    else{ 
+        stopTimer();
+        quedanFiguras = nroFiguras;
+        muestraFigura = false;
+        for (i=0;i<nroFiguras;i++){
+            misFiguras[i].style.display = "none";
+            misFiguras[i].style.backgroundColor = "antiquewhite";  
+        }
+        memoInterval    = setInterval(memoTest, THINK_TIME); 
+    } 
 }
 
 function getDosRandom(max) {
