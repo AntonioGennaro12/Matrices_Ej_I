@@ -5,6 +5,8 @@ const misFiguras2   = document.querySelectorAll(".figura2");
 //const contFiguras   = document.querySelector(".figura");
 
 const IMG_PIC_FAIL = "pic_fail.jpg";
+const EMOGI_FAIL   = ["😡", "😖","👿", "😠", "🤬"];
+const EMO_LEN      = EMOGI_FAIL.length;
 
 const symbLib     = [ "💎", "🍀", "🔔", "🎰", "🌟", "💰", "🕰️", "📀",
                       "🍊", "🍒", "🍋", "🍇", "🍉", "🍓", "🍎", "🍍",
@@ -22,10 +24,8 @@ let quedanFiguras  = nroFiguras;
 let muestraFigura  = false;
 let index1, index2 = 0
 let setDeFiguras   = [];
-
-let picFail = false;
-let failPos = 0;
-
+let failPos        = 0;
+let failRunnig     = false;
 
 initAll();
 
@@ -147,11 +147,6 @@ function getRandPresent (max) {
  * Juego de la memoria
  */    
 function memoTest () {
-    if (picFail = true) {
-            picFail = false;
-            misFiguras2[failPos].style.backgroundColor = "transparent";
-            misFiguras2[failPos].style.display = "none";
-    }
     if (!muestraFigura) {
         muestraFigura = true;
         index1 = getRandPresent(nroFiguras);
@@ -222,13 +217,27 @@ function picBox(pos) {
             }
         }
         else { // le pifió muestro un background 
+            if (misFiguras2[pos].textContent == "") {
+            stopTimer();
+            failRunnig = true;
+            misFiguras2[pos].style.display = "block";
+            misFiguras2[pos].style.backgroundColor = "red";
+            misFiguras2[pos].style.fontSize = "60px";
+            misFiguras2[pos].textContent = EMOGI_FAIL[pos%EMO_LEN]; 
             failPos = pos;
-            picFail = true;
-            misFiguras2[failPos].style.display = "block";
-            misFiguras2[failPos].style.backgroundSize = "cover"; 
-            misFiguras2[failPos].style.backgroundPosition = "center center";
-            misFiguras2[failPos].style.backgroundImage = "url('"+IMG_PIC_FAIL+"')";
-        }
-
+            memoInterval  = setInterval(picFalse, 400); 
+            }
+        } 
     } 
+}
+
+function picFalse () {
+    stopTimer();
+    failRunnig = false;
+    //misFiguras2[failPos].style.backgroundColor = "transparent";
+    misFiguras2[failPos].textContent = ""; 
+    misFiguras2[failPos].style.backgroundColor = "transparent";
+    misFiguras2[failPos].style.fontSize = "30px";
+    misFiguras2[failPos].style.display = "none";
+    memoInterval  = setInterval(memoTest, THINK_TIME); 
 }
