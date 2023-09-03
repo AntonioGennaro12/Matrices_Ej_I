@@ -78,6 +78,7 @@ let index1, index2 = 0
 let setDeFiguras   = [];
 let failPos        = 0;
 let failRunnig     = false;
+let failEnd        = true;
 let gameRunning    = false;
 let memoInterval   = 0 ;  
 
@@ -101,6 +102,8 @@ function jugarMemo() {
         /// ELIMINAR
         console.log(regMejTieMatrx);
         defTablero.style.display = "flex";
+        cTiempoActual = 0;
+        tiempoActual.textContent = convertTiempo (cTiempoActual);
         setTimeout (startAgain(), 500);
     }
     else {
@@ -340,6 +343,7 @@ function memoTest () {
         muestraFigura = true;
         index1 = getRandPresent(nroFiguras);
         misFiguras[index1].style.display = "block";
+        failEnd = false;
     }
     else {
         muestraFigura = false;
@@ -374,6 +378,7 @@ function stopTimer () {
 
 function picBox(pos) {
     console.log("entró: "+pos);
+    if (failEnd == true){ return};
     if (pos != index1){
         if (misFiguras[pos].textContent == misFiguras[index1].textContent) {
             console.log("acertaste: "+misFiguras[pos].textContent );
@@ -426,6 +431,7 @@ function picBox(pos) {
 function picFalse () {
     stopTimer();
     failRunnig = false;
+    failEnd    = true;
     //misFiguras2[failPos].style.backgroundColor = "transparent";
     misFiguras2[failPos].textContent = ""; 
     misFiguras2[failPos].style.backgroundColor = "transparent";
