@@ -7,10 +7,9 @@ const botonJugar    = document.querySelector("#bot-jugar");
 const mejorTiempo   = document.querySelector("#mejor-tiempo");
 const tiempoActual  = document.querySelector("#tiempo-actual");
 const nivelJuego    = document.querySelector("#nivel-juego");
-
-
+//
 const miTablero     = document.querySelector("#mi-tablero");
-
+//
 let  misCasillas   = document.querySelectorAll(".casilla");
 let  misFiguras    = document.querySelectorAll(".figura");
 let  misFiguras2   = document.querySelectorAll(".figura2");
@@ -18,49 +17,46 @@ let  misFiguras2   = document.querySelectorAll(".figura2");
 let limiteX     = window.innerWidth;
 let limiteY     = window.innerHeight;
 console.log("X: "+limiteX+" ,Y: "+limiteY);
-///////////////
-const IMG_PIC_FAIL = "pic_fail.jpg";
+//////////
 const EMOGI_FAIL   = ["😡", "😖","👿", "😠", "🤬"];
 const EMO_LEN      = EMOGI_FAIL.length;
-
+//
 const symbLib     = [ "💎", "🍀", "🔔", "🎰", "🌟", "💰", "🕰️", "📀",
                       "🍊", "🍒", "🍋", "🍇", "🍉", "🍓", "🍎", "🍍",
                       "🍄", "🎲", "🌈", "🎁",  "🎩","📯", "🎸", "🎹",
                       "⚽", "🏈", "🏉", "🥎", "🏀", "🏐", "🎾", "🎱" ];
-
+//
 const MAX_FILAS     = 8;
 const MAX_COLUMNAS  = 8;
 const MAX_PARES     = (MAX_FILAS*MAX_COLUMNAS)/2;
-
+//
 const ALTO_TABLERO  = 4;
 const ANCHO_TABLERO = 4;
-
+//
 const MAX_TIME_LEV    = 3;  
 const THINK_TIME_B    = 2000;
 const THINK_TIME_M    = 1500;
 const THINK_TIME_E    = 1000;
-
-
+//
 let filasTablero   = ALTO_TABLERO;
 let colTablero     = ANCHO_TABLERO;
 let nroFiguras     = filasTablero * colTablero;
 let nroDePares     = nroFiguras/2;
 let quedanFiguras  = nroFiguras;
-
+//
 const L_JUNIOR     = "junior";
 const L_MEDIUM     = "medium";
 const L_EXPERT     = "expert";
 const L_NUM_J      = 0;
 const L_NUM_M      = 1;
 const L_NUM_E      = 2;
-
+//
 let juegoLevel     = L_JUNIOR;     // begginer
 let thinkTime      = THINK_TIME_B; // begginer
 let currLevel      = L_NUM_J;
-
+//
 let cTiempoActual  = 0;
 let regMejorTiempo = 3600; 
-
 // Genera Matriz de mejor tiempo en función de nivel y nro de pares
 let regMejTieMatrx = [];
 for (let i=0; i< MAX_TIME_LEV;i++){
@@ -69,10 +65,10 @@ for (let i=0; i< MAX_TIME_LEV;i++){
         regMejTieMatrx[i].push(regMejorTiempo+i);  
     }
 }
-
+// Carga mejor tiempo con valor de default "__:__"
 let currRegMejorT  = regMejorTiempo;
 mejorTiempo.textContent = convertTiempo (currRegMejorT);
-
+//
 let muestraFigura  = false;
 let index1, index2 = 0
 let setDeFiguras   = [];
@@ -81,7 +77,7 @@ let failRunnig     = false;
 let failEnd        = true;
 let gameRunning    = false;
 let memoInterval   = 0 ;  
-
+//
 function jugarMemo() {
     if (gameRunning == true) {
         gameRunning = false;
@@ -164,7 +160,10 @@ function jugarMemo() {
         initAll();
     }
 }
-
+/**
+ * Llena contenido de columnnas en cada fila...
+ * @returns String con texto HTML
+ */
 function llenaColumnas() {
 let mistring = "";
     for (let i=0;i<colTablero;i++){
@@ -175,8 +174,6 @@ let mistring = "";
     }
     return (mistring);
 }
-
-
 
 function startAgain() {
     botonJugar.textContent = "JUGAR";
@@ -263,7 +260,6 @@ function initAll () {
     defTablero.style.display = "none";
     memoInterval    = setInterval(showInicial, 250); 
 }
-
 function showInicial () {
     if(quedanFiguras > 0) {
         if (!muestraFigura) {
@@ -321,7 +317,6 @@ function stopClock () {
     clearInterval(clockInterval);
 } 
 
-
 /**
  * Obtiene una posisión que tiene figura 
  * @param {Number} max 
@@ -334,7 +329,6 @@ function getRandPresent (max) {
     } while (misFiguras[num].textContent == "");
     return (num);
 }
-
 /**
  * Juego de la memoria
  */    
