@@ -25,12 +25,18 @@ const symbLib     = [ "💎", "🍀", "🔔", "🎰", "🌟", "💰", "🕰️",
                       "🍄", "🎲", "🌈", "🎁",  "🎩","📯", "🎸", "🎹",
                       "⚽", "🏈", "🏉", "🥎", "🏀", "🏐", "🎾", "🎱" ];
 
+const MAX_FILAS     = 8;
+const MAX_COLUMNAS  = 8;
+const MAX_PARES     = (MAX_FILAS*MAX_COLUMNAS)/2;
+
 const ALTO_TABLERO  = 4;
 const ANCHO_TABLERO = 4;
 
+const MAX_TIME_LEV    = 3;  
 const THINK_TIME_B    = 2000;
 const THINK_TIME_M    = 1500;
 const THINK_TIME_E    = 1000;
+
 
 let filasTablero   = ALTO_TABLERO;
 let colTablero     = ANCHO_TABLERO;
@@ -41,16 +47,27 @@ let quedanFiguras  = nroFiguras;
 const L_JUNIOR     = "junior";
 const L_MEDIUM     = "medium";
 const L_EXPERT     = "expert";
+const L_NUM_J      = 0;
+const L_NUM_M      = 1;
+const L_NUM_E      = 2;
 
 let juegoLevel     = L_JUNIOR;     // begginer
 let thinkTime      = THINK_TIME_B; // begginer
+let currLevel      = L_NUM_J;
 
 let cTiempoActual  = 0;
-let regMejorTiempB = 3600; 
-let regMejorTiempM = 3600;
-let regMejorTiempE = 3600;
-let currRegMejorT  = regMejorTiempB;
+let regMejorTiempo = 3600; 
 
+// Genera Matriz de mejor tiempo en función de nivel y nro de pares
+let regMejTieMatrx = [];
+for (let i=0; i< MAX_TIME_LEV;i++){
+    regMejTieMatrx.push([]);
+    for(let j=0; j<MAX_PARES;j++) {
+        regMejTieMatrx[i].push(regMejorTiempo+i);  
+    }
+}
+
+let currRegMejorT  = regMejorTiempo;
 mejorTiempo.textContent = convertTiempo (currRegMejorT);
 
 let muestraFigura  = false;
@@ -66,18 +83,21 @@ function jugarMemo() {
         gameRunning = false;
         stopClock();
         stopTimer();
-        // recarga mejor tiempo según nivel por si cambi
+        // recarga mejor tiempo según nivel por si cambió
         switch (juegoLevel) {
             case L_JUNIOR:
-                regMejorTiempB = currRegMejorT;
+                regMejTieMatrx [L_NUM_J][nroDePares-1] = currRegMejorT;
                 break;
             case L_MEDIUM: 
-                regMejorTiempM = currRegMejorT;
+                regMejTieMatrx [L_NUM_M][nroDePares-1] = currRegMejorT;
                 break;
             case L_EXPERT: 
-                regMejorTiempE = currRegMejorT;
+                regMejTieMatrx [L_NUM_E][nroDePares-1] = currRegMejorT;
                 break;
         }
+        /// ELIMINAR
+        console.log(regMejTieMatrx);
+        
         setTimeout (startAgain(), 500);
     }
     else {
@@ -101,15 +121,15 @@ function jugarMemo() {
         switch (juegoLevel = nivelJuego.value) {
             case L_JUNIOR:
                 thinkTime = THINK_TIME_B;
-                currRegMejorT = regMejorTiempB;
+                currRegMejorT = regMejTieMatrx [L_NUM_E][nroDePares-1];
                 break;
             case L_MEDIUM:
                 thinkTime = THINK_TIME_M;
-                currRegMejorT = regMejorTiempM;
+                currRegMejorT = regMejTieMatrx [L_NUM_E][nroDePares-1];
                 break;
             case L_EXPERT:
                 thinkTime = THINK_TIME_E;
-                currRegMejorT = regMejorTiempE;
+                currRegMejorT = regMejTieMatrx [L_NUM_E][nroDePares-1];
                 break;
         }
         /// Armar tablero
@@ -369,11 +389,9 @@ function picBox(pos) {
                 console.log ("FIN!!!");
                 for (index2= 0; index2 < nroFiguras;index2++) {
                     misFiguras2[index2].textContent = "";
-                    //misFiguras2[index2].style.display = "block";
                 }
                 for (index2= 0; index2 < nroFiguras;index2++) {
                     misFiguras2[index2].textContent = "💎";
-                    //misFiguras[index2].style.display = "block";
                 }
                 memoInterval  = setInterval(memoGanaste, 250);  
                 quedanFiguras = misFiguras.length;
