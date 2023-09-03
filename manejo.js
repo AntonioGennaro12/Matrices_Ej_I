@@ -1,5 +1,6 @@
 // Configuración 
 const juegoMemoria  = document.querySelector("#juego-memoria");
+const defTablero    = document.querySelector("#def-tablero");
 const misFilas      = document.querySelector("#filas");
 const misColumnas   = document.querySelector("#columnas"); 
 const botonJugar    = document.querySelector("#bot-jugar");
@@ -99,7 +100,7 @@ function jugarMemo() {
         }
         /// ELIMINAR
         console.log(regMejTieMatrx);
-        
+        defTablero.style.display = "flex";
         setTimeout (startAgain(), 500);
     }
     else {
@@ -107,7 +108,7 @@ function jugarMemo() {
         colTablero = parseInt(misColumnas.value);
         nroFiguras = filasTablero * colTablero;
         console.log(nroFiguras);
-        if (((colTablero * 90) > limiteX) || ((filasTablero * 80 ) > (limiteY-90))) {
+        if (((colTablero * 90) > limiteX) || ((filasTablero * 80 ) > (limiteY-70))) {
             botonJugar.textContent = "Esp. Insuficiente!!";
                 botonJugar.style.backgroundColor = "red";
                 setTimeout(startAgain, 1000);
@@ -256,6 +257,7 @@ function initAll () {
         misFiguras[i].style.display = "none";
         misFiguras[i].style.backgroundColor = "antiquewhite";  
     }
+    defTablero.style.display = "none";
     memoInterval    = setInterval(showInicial, 250); 
 }
 
