@@ -13,9 +13,11 @@ const miTablero     = document.querySelector("#mi-tablero");
 let  misCasillas   = document.querySelectorAll(".casilla");
 let  misFiguras    = document.querySelectorAll(".figura");
 let  misFiguras2   = document.querySelectorAll(".figura2");
-//const contFiguras   = document.querySelector(".figura");
- // MOVIDO ABAJO 
-
+/////// Toma ancho y alto disponible
+let limiteX     = window.innerWidth;
+let limiteY     = window.innerHeight;
+console.log("X: "+limiteX+" ,Y: "+limiteY);
+///////////////
 const IMG_PIC_FAIL = "pic_fail.jpg";
 const EMOGI_FAIL   = ["😡", "😖","👿", "😠", "🤬"];
 const EMO_LEN      = EMOGI_FAIL.length;
@@ -105,6 +107,13 @@ function jugarMemo() {
         colTablero = parseInt(misColumnas.value);
         nroFiguras = filasTablero * colTablero;
         console.log(nroFiguras);
+        if (((colTablero * 90) > limiteX) || ((filasTablero * 80 ) > (limiteY-90))) {
+            botonJugar.textContent = "Esp. Insuficiente!!";
+                botonJugar.style.backgroundColor = "red";
+                setTimeout(startAgain, 1000);
+                return;
+        }
+
         switch (nroFiguras) {
             case 9: case 15: case 21: case 25: case 35: case 49:
                 console.log("Error! configuración no válida");
