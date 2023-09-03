@@ -7,55 +7,77 @@
     <link rel="stylesheet" href="disenio.css">
 </head>
 <body>
-    <div id="config">
-        <div>
-            <label for=""></label>
-            <input type="text" name="" id="">
-            <label for=""></label>
-            <input type="text" name="" id="">
-            <label for=""></label>
-            <input type="text" name="" id="">
-            <div>
-                <button></button>
+    <div id="juego-memoria">
+        <div id="config">
+            <div id="def-tablero">
+                <label for="filas">Elige nro de Filas</label>
+                <select id="filas" name="Filas">
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4 selected>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                </select>
+                <label for="columnas">Elige nro de Columnas</label>
+                <select id="columnas" name="Columnas">
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4 selected>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                </select>
+            </div>
+            <div id="jugador">
+                <div id="nombre-jugador">
+                    <label for="nombre">Nombre del jugador:</label>
+                    <input type="text" id="nombre" placeholder="Nombre jugador">
+                </div>
+                <div class="tiempos">
+                    <p>Mejor tiempo:</p>
+                    <span id="mejor-tiempo">00:00</span>
+                    <p>Tiempo actual:</p>
+                    <span id="tiempo-actual">00:00</span>
+                </div>
+            </div>
+            <div id="cont-selector">
+                <label for="nivel-juego">Nivel de juego:</label>
+                <select id="nivel-juego" name="nivel-juego">
+                    <option value="junior">Inicial</option>
+                    <option value="medium">Medio</option>
+                    <option value="expert">Experto</option>
+                </select>
+                <button id="bot-jugar" onclick="jugarMemo()">JUGAR</button>
             </div>
         </div>
-    </div>
-    <div id="mi-tablero">
-        <div class="row">
-            <div class="casilla" onclick="picBox(0)">  <div class="figura">💎</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(1)">  <div class="figura">🍄</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(2)">  <div class="figura">⚽</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(3)">  <div class="figura">🍓</div> <div class="figura2"></div> </div>
-        </div>
-        <div class="row">
-            <div class="casilla" onclick="picBox(4)">  <div class="figura">🍀</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(5)">  <div class="figura">🎰</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(6)">  <div class="figura">💎</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(7)">  <div class="figura">🎸</div> <div class="figura2"></div> </div>
-        </div>
-        <div class="row">
-            <div class="casilla" onclick="picBox(8)">  <div class="figura">🍓</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(9)">  <div class="figura">🎁</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(10)"> <div class="figura">🎸</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(11)"> <div class="figura">🍀</div> <div class="figura2"></div> </div>
-        </div>
-        <div class="row">
-            <div class="casilla" onclick="picBox(12)"> <div class="figura">🎩</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(13)"> <div class="figura">💰</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(14)"> <div class="figura">🎰</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(15)"> <div class="figura">🎲</div> <div class="figura2"></div> </div>
-        </div>
-        <div class="row">
-            <div class="casilla" onclick="picBox(16)"> <div class="figura">🥎</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(17)"> <div class="figura">🍄</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(18)"> <div class="figura">🎩</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(19)"> <div class="figura">🎁</div> <div class="figura2"></div> </div>
-        </div>
-        <div class="row">
-            <div class="casilla" onclick="picBox(20)"> <div class="figura">⚽</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(21)"> <div class="figura">🎲</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(22)"> <div class="figura">🥎</div> <div class="figura2"></div> </div>
-            <div class="casilla" onclick="picBox(23)"> <div class="figura">💰</div> <div class="figura2"></div> </div>
+        <div id="mi-tablero">
+            <div class="row">
+                <div class="casilla" onclick="picBox(0)">  <div class="figura">💎</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(1)">  <div class="figura">🍄</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(2)">  <div class="figura">⚽</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(3)">  <div class="figura">🍓</div> <div class="figura2"></div> </div>
+            </div>
+            <div class="row">
+                <div class="casilla" onclick="picBox(4)">  <div class="figura">🍀</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(5)">  <div class="figura">🎰</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(6)">  <div class="figura">💎</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(7)">  <div class="figura">🎸</div> <div class="figura2"></div> </div>
+            </div>
+            <div class="row">
+                <div class="casilla" onclick="picBox(8)">  <div class="figura">🍓</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(9)">  <div class="figura">🎲</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(10)"> <div class="figura">🎸</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(11)"> <div class="figura">🍀</div> <div class="figura2"></div> </div>
+            </div>
+            <div class="row">
+                <div class="casilla" onclick="picBox(12)"> <div class="figura">⚽</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(13)"> <div class="figura">🍄</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(14)"> <div class="figura">🎰</div> <div class="figura2"></div> </div>
+                <div class="casilla" onclick="picBox(15)"> <div class="figura">🎲</div> <div class="figura2"></div> </div>
+            </div>
         </div>
     </div>
     <script src="manejo.js"></script>

@@ -1,17 +1,88 @@
 body {
+    background-color: blanchedalmond;
+}
+
+#juego-memoria {
+    width: 360px;
+    margin-top: 2px;
+    margin-left: 2px;
     background-color: antiquewhite;
 }
 
 #config {
-    width: 360px;
+    border: solid 2px darkgreen ;
+    width: 100%;
     display: flex;
-    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    font-family: Tahoma, sans-serif;
+    font-size: 14px;
+    /*display: none;*/
+}
+
+#def-tablero {
+    border: solid 1px darkgreen ;
+    display: flex;
+}
+
+#jugador {
+    border: solid 1px darkgreen ;
+    flex: 1;
+    display: grid;
+}
+
+#nombre-jugador {
+    border: solid 1px darkgreen ;
+    width: 100%;
+    flex: 1;
+    display: flex;
+}
+
+label {
+    width: 100%;
+    margin-bottom: -2px;
+}
+#nombre {
+    width: 100%;
+    margin-bottom: -2px;
+}
+
+.tiempos {
+    border: solid 1px darkgreen ;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1px;
+}
+
+.tiempos p {
+    margin: 0;
+    margin-bottom: -2px;
+}
+
+.tiempos span {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: -1px;
+    margin-right: 5px;
+}
+
+#cont-selector {
+    border: solid 1px darkgreen ;
+    display: flex;
+}
+
+#bot-jugar {
+    border: solid 1px darkgreen ;
+    background-color: lightgreen;
+    font-weight: bold;
+    width: 100%;
 }
 
 #mi-tablero {
-    margin-top: 5px;
-    margin-left: 2px;
-    width: 360px;
+    width: 100%;
+    margin-top: 2px;
     height: fit-content;
     background-color: blanchedalmond;
     border: solid 2px darkgreen ;
