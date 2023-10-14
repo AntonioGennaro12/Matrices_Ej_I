@@ -8,7 +8,6 @@ body {
     color: darkslategrey;
 }
 
-
 .popup {
     display: none;
     position: fixed;
@@ -18,7 +17,7 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 9999; /* Asegura que aparezca por encima de todo */
-    }
+}
 
 .popup-content {
     background-color: #e4eee1;
@@ -48,6 +47,7 @@ body {
     max-width: 100%;   /*agrega */
     margin: 0 auto;    /* agrega */
     background-color: antiquewhite;
+    padding-right: 40px;
 }
 
 #config {
@@ -67,7 +67,7 @@ body {
     color: darkslategrey;
     text-align: center;
     display: flex;
-    min-width: 500px;
+    min-width: 400px;
 }
 
 #tit-juego {

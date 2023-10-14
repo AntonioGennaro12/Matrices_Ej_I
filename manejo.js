@@ -112,7 +112,7 @@ const MAX_PARES         = (MAX_FILAS*MAX_COLUMNAS)/2;
 //
 const ALTO_TABLERO      = 4;
 const ANCHO_TABLERO     = 4;
-const ANCHO_MIN         = 480;
+const ANCHO_MIN         = 320;
 //
 const MAX_TIME_LEV      = 3;  
 const THINK_TIME_B      = 2000;
@@ -295,7 +295,7 @@ function ajustaAltoCelda() {
         }
     }
     else {
-        anchoTabla = limiteX * 0.98;
+        anchoTabla = limiteX * 0.90;
     }
     juegoMemoria.style.width = anchoTabla + "px";
     anchoCelda = anchoTabla / colTablero;
