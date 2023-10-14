@@ -208,7 +208,10 @@ let hallTime       = 0;
 //
 // Fin de definicioenes
 // Inicia el main
-juegoMemoria.style.width = ANCHO_MIN + "px";
+if (limiteX > ANCHO_MIN) {juegoMemoria.style.width = (limiteX*0.9) + "px";}
+else {juegoMemoria.style.width = ANCHO_MIN + "px";}
+ajustaAltoCelda();
+
 // Manda un timer para el show inicial
 let showInterval = setInterval(showEmojis, 250);
 // 
@@ -280,11 +283,39 @@ miNombre.addEventListener("change", function () {
     histoJugadas.style.display = "none";
   });
 
+ /**
+  * Ajusta el tamaño de la celda al espacio disponible
+  */ 
+function ajustaAltoCelda() {
+    altoCelda = Math.floor((limiteY * 0.70) / filasTablero);
+    if (((limiteX * 0.90) / colTablero) >= altoCelda) {
+        anchoTabla = altoCelda * colTablero;
+        if (anchoTabla <= ANCHO_MIN) {
+            anchoTabla = ANCHO_MIN;
+        }
+    }
+    else {
+        anchoTabla = limiteX * 0.98;
+    }
+    juegoMemoria.style.width = anchoTabla + "px";
+    anchoCelda = anchoTabla / colTablero;
+    // AJUSTE PARA CELULARES, ajusta alto celda para no exceder 
+    if (altoCelda > (anchoCelda * 1.10)) {
+        altoCelda = (anchoCelda * 1.10);
+    }
+    for (let i=0; i< nroFiguras;i++){
+        misCasillas[i].style.height = altoCelda + "px"; 
+        misFiguras[i].style.fontSize = (altoCelda * 0.6) + "px"; 
+        misFiguras2[i].style.fontSize = (altoCelda * 0.3) + "px"; 
+    } 
+}
+
 // Detecta cambio de tamaño de pantalla 
   window.addEventListener("resize", function() {
     limiteX     = window.innerWidth;
     limiteY     = window.innerHeight;
     console.log("X: "+limiteX+" ,Y: "+limiteY);
+    ajustaAltoCelda();
 });
 /**
  * BOTON JUGAR Y REINICIAR :Función Play del juego y para Reiniciar
@@ -352,32 +383,12 @@ function jugarMemo() {
             misFiguras    = misFigurasI;
             misFiguras2   = misFiguras2I;  
         ////////////////////////////////////
-            altoCelda   = Math.floor((limiteY * 0.70) / filasTablero);
-            if (((limiteX*0.90)/colTablero) >= altoCelda ) {
-                anchoTabla = altoCelda * colTablero;
-                if (anchoTabla <= ANCHO_MIN) { 
-                    anchoTabla = ANCHO_MIN; 
-                }
-            }
-            else { 
-                anchoTabla = limiteX*0.98; 
-            }
-            juegoMemoria.style.width = anchoTabla + "px";
-            anchoCelda = anchoTabla / colTablero;
-            // AJUSTE PARA CELULARES, ajusta alto celda para no exceder 
-            if (altoCelda > (anchoCelda * 1.10)) {
-                altoCelda = (anchoCelda * 1.10);
-            }
-            for (let i=0; i< nroFiguras;i++){
-                misCasillas[i].style.height = altoCelda + "px"; 
-                misFiguras[i].style.fontSize = (altoCelda * 0.6) + "px"; 
-                misFiguras2[i].style.fontSize = (altoCelda * 0.3) + "px"; 
-            } 
-        //////////////////////////////////////////
+            ajustaAltoCelda();        
             initAll();
         }
     }
 }
+
 /**
  * Carga el Nivel del Juego
  */
@@ -719,7 +730,7 @@ function picBox(pos) {
                 misFiguras2[pos].style.backgroundColor = "red";
                 misFiguras2[pos].textContent = EMOGI_FAIL[pos%EMO_LEN]; 
                 failPos = pos;
-                memoInterval  = setInterval(picFalse, 500); 
+                memoInterval  = setInterval(picFalse, 400); 
                 }
             } 
         } 
