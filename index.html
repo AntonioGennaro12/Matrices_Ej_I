@@ -7,8 +7,38 @@
     <link rel="stylesheet" href="disenio.css">
 </head>
 <body>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" id="close-popup">&times;</span>
+            <h2>Juego de La Memoria - Memotest®</h2>
+            <p>El juego consiste en encontrar en el menor tiempo posible todos los pares de figuras que</p>
+            <p>. están ocultos en el tablero seleccionado. Las figuras se generan en forma aleatoria y antes</p>
+            <p>. de iniciar el juego se muestran todas una cantidad de veces proporcional al tamaño del tablero.</p>
+            <p>. Al finalizar el ciclo, se ocultan todas y se comienza a mostrar de a una y en forma aleatoria. </p>
+            <p>. Durante todo el tiempo que se muestra una figura, se oculta y se muestra la siguiente, se tiene</p>
+            <p>. la oporturnidad de encontrar su par clickeando sobre una celda que permanece oculta. Si es "par"</p>
+            <p>. de la que se está mostrando, o se acaba de aocultar, quedan fijas y cambian de tamaño, indicando</p>
+            <p>. que se han encontrado. Si no es la correcta, se muestra un emoji de error con fondo de color.</p>
+            <p>Para empezar, elige la cantidad de Filas y Columnas del Tablero, primero de a pocas y luego ir <p>
+            <p> . aumentando siempre que el producto (filas x columans) sea un número par.</p>
+            <p>Puedes elegir un Nivel de Juego, entre Inicial, Medio o Experto, lo cual hace que el tiempo que </p>
+            <p> . se dispone para encontar la figura oculta va disminuyendo.</p>
+            <p>Puedes registrar tu nombre de manera que queden registradas todas tus jugadas y también figurar</p>
+            <p>. en el hall de la fama. Para visualizarlos se debe clickear sobre "Nombre del Jugador:" o  </p>
+            <p>. "Mejor Tiempo:", pasando con el mouse sobre estas leyendas se indica que hacer.</p>
+            <p>Los registros se almacenan en la memoria del dispositivo, pudiendo hacer una competencia entre</p>
+            <p>. miembros de la familia, compañeros de trabajo o amigos, mientras jueguen todos en el mismo </p>
+            <p>. dispositivo.</p>
+            <p>... Fin. (click en "x" para cerrar).</p>
+            <p> V1.1 - ©AG2023</p>       
+        </div>
+    </div>
     <div id="juego-memoria">
         <div id="config">
+            <div id="titulo"> 
+                <p id="tit-juego">Juego de la Memoria - Memotest®</p>
+                <p id="help" onclick="clickHelp()">[?]</p>
+            </div>
             <div id="def-tablero">
                 <label for="filas">Elige nro de Filas</label>
                 <select id="filas" name="Filas">
@@ -33,22 +63,23 @@
             </div>
             <div id="jugador">
                 <div id="nombre-jugador">
-                    <label for="nombre">Nombre del jugador:</label>
+                    <label for="nombre" id="nom-jug" onmouseover="sugMostrarHis()" onclick="muestraHistoria()">Nombre del jugador:</label>
                     <input type="text" id="nombre" placeholder="Nombre jugador">
                 </div>
                 <div class="tiempos">
-                    <p>Mejor tiempo:</p>
+                    <p id="mu-hall" onmouseover="sugMostHallOfFame()" onclick="muestraHall()" with="100px">Mejor tiempo:</p>
                     <span id="mejor-tiempo">00:00</span>
+                    <p id="nom-mej-tie">Nombre: ........</p>
                     <p>Tiempo actual:</p>
                     <span id="tiempo-actual">00:00</span>
                 </div>
             </div>
             <div id="cont-selector">
-                <label for="nivel-juego">Nivel de juego:</label>
+                <label id="n-j-txt" for="nivel-juego">Nivel de juego:</label>
                 <select id="nivel-juego" name="nivel-juego">
-                    <option value="junior">Inicial</option>
-                    <option value="medium">Medio</option>
-                    <option value="expert">Experto</option>
+                    <option value=1>Inicial</option>
+                    <option value=2>Medio</option>
+                    <option value=3>Experto</option>
                 </select>
                 <button id="bot-jugar" onclick="jugarMemo()">JUGAR</button>
             </div>
@@ -79,6 +110,16 @@
                 <div class="casilla" onclick="picBox(15)"> <div class="figura">🎲</div> <div class="figura2"></div> </div>
             </div>
         </div>
+        <div class="records" id="his-jugador">
+            <h2 id="tit-his">Registro Jugador: </h2>
+            <div id="records-jug">
+            </div>
+        </div>   
+        <div class="records" id="hall-fame">
+            <h2 id="tit-hall">HALL OF FAME </h2>
+            <div id="hall-records">
+            </div>
+        </div>      
     </div>
     <script src="manejo.js"></script>
 </body>
