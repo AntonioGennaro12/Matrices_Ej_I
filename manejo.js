@@ -164,7 +164,9 @@ let registroJuga   = [];  // Día, hora y 3 enteros: nivel: (1,2 ó 3 - Nro de p
 let writePointer   = [];  // puntero de escritura libre (0 a 9) buffer circular 
 //////////////////////////////
 // Elimina todos los elementos almacenados en el Local Storage
-localStorage.clear();
+
+//localStorage.clear();
+
 // Paso 2: Intenta recuperar los datos del LocalStorage
 const storedRegMejTieMatrx = JSON.parse(localStorage.getItem('regMejTieMatrx'));
 const storedRegMejTieName = JSON.parse(localStorage.getItem('regMejTieName'));
@@ -172,8 +174,8 @@ const storedRegMejDateTime = JSON.parse(localStorage.getItem('regMejDateTime'));
 const storedMisJugadores = JSON.parse(localStorage.getItem('misJugadores'));
 const storedRegistroJuga = JSON.parse(localStorage.getItem('registroJuga'));
 const storedWritePointer = JSON.parse(localStorage.getItem('writePointer'));
-console.log(storedMisJugadores, storedRegMejDateTime, storedRegMejTieMatrx, 
-                storedRegMejTieName, storedRegistroJuga, storedWritePointer);
+console.log(storedRegMejTieMatrx, storedRegMejTieName, storedRegMejDateTime, 
+            storedMisJugadores, storedRegistroJuga, storedWritePointer);
 // Asigna los valores recuperados o sino usa valores predeterminados
 regMejTieMatrx = storedRegMejTieMatrx || regMejTieMatrx;
 regMejTieName = storedRegMejTieName || regMejTieName;
@@ -181,6 +183,13 @@ regMejDateTime = storedRegMejDateTime || regMejDateTime;
 misJugadores = storedMisJugadores || misJugadores;
 registroJuga = storedRegistroJuga || registroJuga;
 writePointer = storedWritePointer || writePointer;
+//////// DEBUG ///////////////
+console.table(regMejTieMatrx);
+console.table(regMejTieName);
+console.table(regMejDateTime);
+console.table(misJugadores);
+console.table(registroJuga);
+console.table(writePointer);
 //////////// FIN RECARGA LOCAL STORAGE
 // Carga mejor tiempo con valor de default "__:__"
 let currRegMejorT       = regMejorTiempo;
@@ -236,6 +245,7 @@ function showEmojis() {  // Desplaza las figuras hacia a dereha por todo el tabl
         miBkg = miBkg2;
     }
 }
+
 // HELP
 /**
  * Al hacer click en el "?", abre la ventana emergente
@@ -282,12 +292,20 @@ miNombre.addEventListener("change", function () {
     }
     histoJugadas.style.display = "none";
   });
+ 
+// Detecta cambio de tamaño de pantalla 
+window.addEventListener("resize", function() {
+    limiteX     = window.innerWidth;
+    limiteY     = window.innerHeight;
+    console.log("X: "+limiteX+" ,Y: "+limiteY);
+    ajustaAltoCelda();
+});
 
  /**
   * Ajusta el tamaño de la celda al espacio disponible
   */ 
 function ajustaAltoCelda() {
-    altoCelda = Math.floor((limiteY * 0.70) / filasTablero);
+    altoCelda = Math.floor((limiteY * 0.50) / filasTablero);
     if (((limiteX * 0.90) / colTablero) >= altoCelda) {
         anchoTabla = altoCelda * colTablero;
         if (anchoTabla <= ANCHO_MIN) {
@@ -308,85 +326,6 @@ function ajustaAltoCelda() {
         misFiguras[i].style.fontSize = (altoCelda * 0.6) + "px"; 
         misFiguras2[i].style.fontSize = (altoCelda * 0.3) + "px"; 
     } 
-}
-
-// Detecta cambio de tamaño de pantalla 
-  window.addEventListener("resize", function() {
-    limiteX     = window.innerWidth;
-    limiteY     = window.innerHeight;
-    console.log("X: "+limiteX+" ,Y: "+limiteY);
-    ajustaAltoCelda();
-});
-/**
- * BOTON JUGAR Y REINICIAR :Función Play del juego y para Reiniciar
- * @returns 
- */
-function jugarMemo() {
-    clearInterval (showInterval); // detiene show incial
-    if (showInicFig === false) {
-        if (gameRunning == true) {
-            gameRunning = false;
-            picEnable   = false;
-            stopClock();
-            stopTimer();
-            //cargaRegMejorT();  
-            // DEBUG -- Remover          
-            console.table(regMejTieMatrx);
-            console.table(regMejTieName);
-            console.table(regMejDateTime);
-            console.table(misJugadores);
-            //
-            defTablero.style.display = "flex";
-            cTiempoActual = 0;
-            tiempoActual.textContent = convertTiempo (cTiempoActual);
-            setTimeout (startAgain(), 500);
-        }
-        else {
-            stopTimer();
-            filasTablero = parseInt(misFilas.value);
-            colTablero = parseInt(misColumnas.value);
-            nroFiguras = filasTablero * colTablero;
-            nroDePares = nroFiguras / 2;
-            console.log("Nro de Fig: "+nroFiguras);
-            if (((colTablero * 80) > limiteX) || ((filasTablero * 80 ) > (limiteY-80))) {
-                botonJugar.textContent = "Esp. Insuficiente!!";
-                    botonJugar.style.backgroundColor = "red";
-                    setTimeout(startAgain, 1000);
-                    return;
-            }
-            switch (nroFiguras) {
-                case 9: case 15: case 21: case 25: case 35: case 49:
-                    botonJugar.textContent = "Config. No Válida";
-                    botonJugar.style.backgroundColor = "red";
-                    setTimeout(startAgain, 1000);
-                    return;
-                }
-            cargaNivelJgo();
-        console.log("Mejor T primera vez");
-        console.log("MejT: "+currRegMejorT+" NomMT: "+currNomMejorT);
-            if (nroJugadores > 0) { mejorTiempo.textContent = convertTiempo (currRegMejorT);}
-            nombreMejT.textContent = "("+currNomMejorT+")";   
-            /// Armar tablero
-            index1 = 0;
-            miTablero.innerHTML = ""; // borra tablero existente
-            for (let f=0;f<filasTablero;f++){
-                miTablero.innerHTML += `
-                <div class="row">
-                    ${llenaColumnas()}
-                </div>
-                `;
-            }  
-            const misCasillasI   = document.querySelectorAll(".casilla");
-            const misFigurasI    = document.querySelectorAll(".figura");
-            const misFiguras2I   = document.querySelectorAll(".figura2");
-            misCasillas   = misCasillasI;
-            misFiguras    = misFigurasI;
-            misFiguras2   = misFiguras2I;  
-        ////////////////////////////////////
-            ajustaAltoCelda();        
-            initAll();
-        }
-    }
 }
 
 /**
@@ -468,10 +407,16 @@ function startAgain() {
  * Prepara para Reinciar Juego
  */
 function startGameBoton() {
-    botonJugar.textContent = "REINICIAR JUEGO";
+    botonJugar.textContent = "DETENER/ REINICIAR JUEGO";
     botonJugar.style.backgroundColor = "gold";
 }
-
+/**
+ * espera por show
+ */
+function waitShowBoton() {
+    botonJugar.textContent = "... memoriza lo que puedas...";
+    botonJugar.style.backgroundColor = "lightsalmon";
+}
 /**
  * Inicializa todo para empezar con el Tablero elegido
  */
@@ -522,7 +467,7 @@ function initAll () {
         } while (found);
         misFiguras[anyPos].textContent = setDeFiguras [i]; // Carga la misma figura en la 2da casilla
     } 
-    //// MUSTRA EL TABLERO OCULTO (ELIMINAR)
+    //// MUESTRA EL TABLERO OCULTO (ELIMINAR)
     let idx = 0;
     for (let f=0; f<filasTablero;f++){
     let miStr = "";
@@ -534,10 +479,11 @@ function initAll () {
     idx++;
     console.table(miStr);
     }
+    ///////////////////////////
+
     quedanFiguras = nroFiguras;
     muestraFigura = false;
-    
-    // Actualiza indicadores de tiempo.
+        // Actualiza indicadores de tiempo.
     if (nroJugadores > 0) { mejorTiempo.textContent = convertTiempo (currRegMejorT);}
     cTiempoActual = 0;
     tiempoActual.textContent = convertTiempo (cTiempoActual);
@@ -576,7 +522,7 @@ function showInicial () {
     }
     else { 
         stopTimer();
-        quedanFiguras = nroFiguras;
+        quedanFiguras = nroFiguras; // Aquí se ocultan todas las figuras después del show
         muestraFigura = false;
         for (i=0;i<nroFiguras;i++){
             misFiguras[i].style.display = "none";
@@ -591,6 +537,76 @@ function showInicial () {
         picEnable = true;
     } 
 }
+
+/**
+ * BOTON JUGAR Y REINICIAR :Función Play del juego y para Reiniciar
+ * @returns 
+ */
+function jugarMemo() {
+    clearInterval (showInterval); // detiene show incial
+    if (showInicFig === false) {
+        picEnable   = false;
+        stopTimer();
+        if (gameRunning == true) {
+            gameRunning = false;
+            stopClock();
+            //cargaRegMejorT();  
+            // DEBUG -- Remover          
+            console.table(regMejTieMatrx);
+            console.table(regMejTieName);
+            console.table(regMejDateTime);
+            console.table(misJugadores);
+            //
+            defTablero.style.display = "flex";
+            cTiempoActual = 0;
+            tiempoActual.textContent = convertTiempo (cTiempoActual);
+            setTimeout (startAgain(), 500);
+        }
+        else {
+            filasTablero = parseInt(misFilas.value);
+            colTablero = parseInt(misColumnas.value);
+            nroFiguras = filasTablero * colTablero;
+            nroDePares = nroFiguras / 2;
+            console.log("Nro de Fig: "+nroFiguras);
+            if (((colTablero * 80) > limiteX) || ((filasTablero * 80 ) > (limiteY-80))) {
+                botonJugar.textContent = "Esp. Insuficiente!!";
+                    botonJugar.style.backgroundColor = "red";
+                    setTimeout(startAgain, 1000);
+                    return;
+            }
+            switch (nroFiguras) {
+                case 9: case 15: case 21: case 25: case 35: case 49:
+                    botonJugar.textContent = "Config. No Válida";
+                    botonJugar.style.backgroundColor = "red";
+                    setTimeout(startAgain, 1000);
+                    return;
+                }
+            cargaNivelJgo();
+            if (nroJugadores > 0) { mejorTiempo.textContent = convertTiempo (currRegMejorT);}
+            nombreMejT.textContent = "("+currNomMejorT+")";   
+            /// Armar tablero
+            index1 = 0;
+            miTablero.innerHTML = ""; // borra tablero existente
+            for (let f=0;f<filasTablero;f++){
+                miTablero.innerHTML += `
+                <div class="row">
+                    ${llenaColumnas()}
+                </div>
+                `;
+            }  
+            const misCasillasI   = document.querySelectorAll(".casilla");
+            const misFigurasI    = document.querySelectorAll(".figura");
+            const misFiguras2I   = document.querySelectorAll(".figura2");
+            misCasillas   = misCasillasI;
+            misFiguras    = misFigurasI;
+            misFiguras2   = misFiguras2I;  
+            ajustaAltoCelda();  
+            waitShowBoton();      
+            initAll();
+        }
+    }
+}
+
 /**
  * Arranca Timer Intervalo = ThinkTime
  */
@@ -736,6 +752,7 @@ function picBox(pos) {
         } 
     }
 }
+
 /**
  * Redibuja el Par de Figuras por haberlo encontrado
  * @param {Number} pos 
@@ -774,6 +791,7 @@ function registraMejorTiempo() {
         mejorTiempo.textContent = convertTiempo(currRegMejorTprov);
     }
 }
+
 /**
  * Registro de Jugada exitosa!!
  */
@@ -795,8 +813,12 @@ function registroJugadaExitosa() {
         if (++(writePointer[indice]) >= MAX_HIS_REC) { writePointer[indice] = 0; }
         console.log(registroJuga);
         console.log(writePointer);
+        // Almacena en Local Storage
+        localStorage.setItem('registroJuga', JSON.stringify(registroJuga));
+        localStorage.setItem('writePointer', JSON.stringify(writePointer));
     }
 }
+
 /**
  * Click fallido -- No se encontró la figura 
  */
@@ -810,6 +832,7 @@ function picFalse () {
     apuraProxFig = true; // va al próximo intento.  
     runTimer(400); // 400 milisegundos
 }
+////////////// Registros de Jugadas y Hall de la Fama
 /**
  * Restablece texto y color original de las leyendas de Nombre y Mejor tiempo 
  */
@@ -819,6 +842,20 @@ function restoreTexts() {
     nomJugador.textContent = "Nombre del jugador:";
     nomJugador.style.color = "darkslategrey";
 }
+
+/**
+ * Oculta registro de Jugadas después de 10 segundos
+ */
+function ocultaRegJugadas(){
+    histoJugadas.style.display = "none";
+}
+/**
+ * Oculta Hall of Fame después de 5 segundos
+ */
+function ocultaHallOfFame() {
+    hallOfFame.style.display = "none";
+}
+
 /**
  * Muestra sugerencia para ver el Hall de la Fama
  */
@@ -832,7 +869,7 @@ function sugMostHallOfFame() {
  * Muestra la lista de mejores tiempos y el Nombre del quién lo logró
  */
 function muestraHall() { 
-    histoJugadas.style.display = "none";
+    ocultaRegJugadas();
     hallOfFame.style.display = "grid";
     tituloHall.textContent = "HALL DE LA FAMA";
     let index = -1;
@@ -841,11 +878,12 @@ function muestraHall() {
         for(let j=0; j<MAX_PARES;j++) {
             if (regMejTieName[i][j] != "") {
                 index = 1;
+                let diayhora = new Date(regMejDateTime[i][j]);
                 hallRecords.innerHTML += `
-                <p> Nivel: ${i+1}-${j+1}: Nombre: ${regMejTieName[i][j]},  
-                    tiempo: ${convertTiempo(regMejTieMatrx[i][j])},  
-                    Fecha: ${regMejDateTime[i][j].toISOString().slice(0, 10)}-
-                    Hora: ${regMejDateTime[i][j].toTimeString().slice(0, 8)}
+                <p> Nivel:${i+1}-${j+1}, Nom: ${regMejTieName[i][j]},  
+                    Tiempo: ${convertTiempo(regMejTieMatrx[i][j])},  
+                    Día: ${diayhora.toISOString().slice(0, 10)}-
+                    Hora: ${diayhora.toTimeString().slice(0, 8)}                   
                 `;
             }
         }
@@ -853,6 +891,7 @@ function muestraHall() {
     if (index == -1) {
         hallRecords.innerHTML += ` ..no hay registros...`;
     }
+    setTimeout (ocultaHallOfFame,10000);
 }
 /**
  * Muestra sugerencia para ver historia del jugador
@@ -867,7 +906,7 @@ function sugMostrarHis() {
  * Muestra el historial del jugador corriente
  */
 function muestraHistoria() {
-    hallOfFame.style.display = "none";
+    ocultaHallOfFame();
     histoJugadas.style.display = "grid";
     let index = -1; // Inicializa con -1, que indica que el jugador no se encontró
     for (let i = 0; i < misJugadores.length; i++) {
@@ -880,9 +919,9 @@ function muestraHistoria() {
       }
     }
     if (index == -1) {
-      titHistoria.textContent = "Registro jugadas de: (no hay jugadores registrados!)";
+      titHistoria.textContent = "Registro de jugadas de: (no hay jugadores registrados!)";
     } else {
-      titHistoria.textContent = "Registro jugadas de: " + nombreJugador;
+      titHistoria.textContent = "Registro de jugadas de: " + nombreJugador;
       let j = (writePointer[index]-1); // partimos de último escrito hacia atrás
       if (j < 0) {j = MAX_HIS_REC-1; } // corrige de dónde empieza, de 0 a MAX_HIS_REC 
       regJugadas.innerHTML = "";
@@ -890,10 +929,11 @@ function muestraHistoria() {
             console.log(i, j);
             if (registroJuga[index][j][1] != -1) { // pregunta si está vacío
                 console.log("reg: "+registroJuga[index][j][1]);
-                    regJugadas.innerHTML += `
-                    <p> reg ${i+1}: ${registroJuga[index][j][0].toISOString().slice(0, 10)}-
-                                    ${registroJuga[index][j][0].toTimeString().slice(0, 8)}:
-                        Nivel: ${registroJuga[index][j][1]}-${registroJuga[index][j][2]},
+                let diayhora = new Date(registroJuga[index][j][0]);
+                regJugadas.innerHTML += `
+                    <p> Reg: ${i+1}: ${diayhora.toISOString().slice(0, 10)}-
+                                    ${diayhora.toTimeString().slice(0, 8)}: 
+                            Nivel:  ${registroJuga[index][j][1]}-${registroJuga[index][j][2]},
                             Tiempo: ${convertTiempo(registroJuga[index][j][3])} </p>  `;
                 if( --j == -1 ) { j = MAX_HIS_REC-1; }  // wrap around
             }
@@ -903,5 +943,6 @@ function muestraHistoria() {
             else {i=MAX_HIS_REC;} // no hay más registros...
         }
     }
+    setTimeout (ocultaRegJugadas,10000);
 }
 //// FIN!!!

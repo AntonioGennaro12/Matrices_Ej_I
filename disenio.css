@@ -42,11 +42,12 @@ body {
 
 
 #juego-memoria {
-    display: grid;  /* agrega */
-    align-items: center; /* agrega */
-    max-width: 100%;   /*agrega */
-    margin: 0 auto;    /* agrega */
+    display: grid;  
+    align-items: center; 
+    max-width: 100%;   
+    margin: 0 auto;    
     background-color: antiquewhite;
+    margin-top: -100px;
     padding-right: 40px;
 }
 
@@ -203,9 +204,11 @@ label {
 }
 
 #records-jug, #hall-records {
-    font-size: 12px;
+    font-size: 11px;
+    text-align: left;
+    padding-left: 1px;
     color: darkslategray;
-    line-height: 0.5;
+    line-height: 0.6;
     margin-bottom: 3px;
 }
 
